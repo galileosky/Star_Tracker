@@ -43,18 +43,49 @@ def jpg2fits(full_dir_img, fits_name_of_image):
     Generate .fits from .jpg image.
     """
     image = Image.open(full_dir_img)
-    image_bw = image.convert('L')
+
+    # "L": Grayscale (8-bit pixels, black and white).
+    # "RGB": True Color (3x8-bit pixels, red, green, blue).
+    # "RGBA": True Color with Alpha (4x8-bit pixels, red, green, blue, alpha transparency).
+    # "P": Paletted (8-bit pixels, mapped to a color palette).
+    # "1": Black and White (1-bit pixels, black or white).
+    image_bw = image.convert('L')       # grayscale
+
     x_size, y_size = image_bw.size
+
+    print(f'x_size =  {x_size}    y_size =  {y_size}\n')
+
     fits1 = image_bw.getdata()
     if platform.machine().endswith('64'):
         fits2 = np.array(fits1, dtype=np.int32)
     else:
         fits2 = np.array(fits1)
+    
+    #print(f'fits2.size =  {fits2.size}\n')
+
     fits3 = fits2.reshape(y_size, x_size)
+    
+    #print(f'fits3.size =  {fits3.size}\n')
+
+    #flip the up/down order
+    # In FITS images, the row direction typically increases upwards, meaning
+    # the first pixel (row, column) is in the bottom-left corner, with rows
+    # increasing towards the top
+    #
+    # JPG images, on the other hand, generally have a row direction that
+    # increases downwards, similar to how they are displayed in web browsers
+    # or image viewers. 
+    #
     fits4 = np.flipud(fits3)
+
     fits5 = fits.PrimaryHDU(data=fits4)
     fits5.writeto(fits_name_of_image, overwrite=True)
+
+    #print(f'fits5 =  {fits5}\n')
+
+    print(f'fits_name_of_image =  {fits_name_of_image}\n')
     return 0
+
 
 
 def apply_sextractor(img_fits_name, stt_data_dir, lis_type="rpi"):
@@ -361,6 +392,9 @@ def solve_lis(img_full_dir, catalog_division, stt_data_dir, lis_type="rpi"):
         str_fits = img_full_dir
     else:
         raise NameError("ERROR: Please introduce a valid lis_type parameter <rpi> or <stereo>")
+    
+    print(f'apply_sextractor:  {str_fits}  {stt_data_dir}  {lis_type}\n')
+
     apply_sextractor(str_fits, stt_data_dir, lis_type)
     # Apply Match - First iteration.
     ra_dec_list = get_catalog_center_points(0, 0, catalog_division, lis_type)
