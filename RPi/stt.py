@@ -10,7 +10,13 @@ parser.add_argument("-exp", "--exptime", type=int,
                     help="Exposure time (in ms) of the grabbed picture (in direct mode).", default=800)
 parser.add_argument("-n", "--npic", type=int,
                     help="The number of the picture to analyze (in sample mode).", default=1)
+
+#print(f'parser =  {parser}')
+
 args = parser.parse_args()
+
+print(f'args =  {args}')
+
 stt_type = args.type
 cat_division = args.catalog
 n_pic = args.npic
@@ -19,6 +25,11 @@ exp_time = args.exptime
 if cat_division not in (5, 10, 15):
     parser.error("Please introduce a valid catalog division: 5/10/15")
 
+
+#------------------------------------------------
+#
+#
+#------------------------------------------------
 if stt_type == "direct_rpi":
     stt.solve_lis_grab_img(cat_division, exp_time)
 elif stt_type == "sample_rpi":

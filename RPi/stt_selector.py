@@ -31,7 +31,7 @@ def solve_lis_sample_rpi(cat_division, n_pic):
 
 
 def solve_lis_sample_stereo(cat_division, n_pic):
-    if n_pic < 1 or n_pic > 10:
+    if n_pic < 1 or n_pic > 11:
         raise ValueError("---> ERROR: --npic must be between 1 and 10")
     image_name = stereo_images(n_pic)
     print("\n---> STT: Analyzing picture from Sample_images/STEREO/{} "
@@ -51,6 +51,7 @@ def stereo_images(selector):
                           "20090820_120901_2bh1A_br01.fts",
                           "20090820_120901_s4h1A.fts",
                           "20101220_192901_2bh1A_br01.fts",
-                          "20101220_192901_s4h1A.fts"]
+                          "20101220_192901_s4h1A.fts",
+                          "20250617_000630_n4h1A.fts"]
     image = stereo_images_list[selector - 1]
     return image
