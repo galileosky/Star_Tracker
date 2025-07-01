@@ -1,3 +1,18 @@
+#******************************************************************************
+# SOST Star Tracker
+#
+# Usage:
+#   python3 stt.py <type> <cat_division> -n <n_pic>
+#
+#   python3 stt.py sample_rpi 10 -n 1
+#   python3 stt.py direct_rpi 10
+#   python3 stt.py sample_stereo 10 -n 1
+#
+#
+#******************************************************************************
+
+
+
 import argparse
 import stt_selector as stt
 
